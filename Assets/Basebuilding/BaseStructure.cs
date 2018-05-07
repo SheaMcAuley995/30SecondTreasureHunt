@@ -12,6 +12,16 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     public LineRenderer lr;
     public bool isEnergyGen;
     public float energyPerSecond;
+    public bool isCore;
+
+    public bool Activated
+    {
+        get
+        {
+            return activated;
+        }
+    }
+    private bool activated = true;
 
     private float health;
     private List<BaseStructure> connections = new List<BaseStructure>();
@@ -28,8 +38,14 @@ public class BaseStructure : MonoBehaviour, Idamagable {
         health -= dmg;
         if(health <= 0)
         {
+            foreach (BaseStructure strct in connections)
+            {
+                if (strct.Activated && !strct.IsConnectedToCore(this))
+                {
+                    strct.Deactivate();
+                }
+            }
             BaseManager.Instance.DestroyStructure(this);
-            Destroy(gameObject);
         }
         else if(health > maxHealth)
         {
@@ -74,6 +90,79 @@ public class BaseStructure : MonoBehaviour, Idamagable {
                 lr.positionCount += 2;
                 lr.SetPosition(lr.positionCount - 2, transform.position);
                 lr.SetPosition(lr.positionCount - 1, strct.transform.position);
+            }
+        }
+    }
+
+    public bool IsConnectedToCore(BaseStructure caller)
+    {
+        if(isCore)
+        {
+            return true;
+        }
+
+        foreach(BaseStructure strct in connections)
+        {
+            if(strct.isCore)
+            {
+                return true;
+            }
+        }
+
+        float lastClosest = float.MinValue;
+        BaseStructure toCheck = null;
+        float currentClosest = float.MaxValue;
+        int connsChecked = 0;
+        while(connsChecked < connections.Count)
+        {
+            foreach (BaseStructure strct in connections)
+            {
+                if(strct == caller)
+                {
+                    continue;
+                }
+
+                float dist = Vector3.Distance(strct.transform.position,
+                                              BaseManager.Instance.GetCore().transform.position);
+                if(dist > lastClosest && dist < currentClosest)
+                {
+                    toCheck = strct;
+                    currentClosest = dist;
+                }
+            }
+
+            if(toCheck.IsConnectedToCore(this))
+            {
+                return true;
+            }
+
+            lastClosest = currentClosest;
+            ++connsChecked;
+        }
+
+        return false;
+    }
+
+    public void Deactivate()
+    {
+        activated = false;
+        foreach(BaseStructure strct in connections)
+        {
+            if(strct.Activated)
+            {
+                strct.Deactivate();
+            }
+        }
+    }
+
+    public void Activate()
+    {
+        activated = true;
+        foreach(BaseStructure strct in connections)
+        {
+            if(!strct.Activated)
+            {
+                strct.Activate();
             }
         }
     }
