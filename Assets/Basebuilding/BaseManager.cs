@@ -5,21 +5,43 @@ using UnityEngine;
 public class BaseManager : MonoBehaviour
 {
 
-    private static BaseStructure coreStatic;
-    public static BaseStructure GetCore()
+    private static BaseManager instance;
+    public static BaseManager Instance
     {
-        return coreStatic;
+        get
+        {
+            return instance;
+        }
+    }
+    
+    public BaseStructure GetCore()
+    {
+        return core;
     }
 
-    private static List<BaseStructure> structures = new List<BaseStructure>();
 
-    public static BaseStructure GetClosestStructure(Vector3 pos)
+    public BaseStructure core;
+
+    private List<BaseStructure> connectors = new List<BaseStructure>();
+
+    private List<BaseStructure> structures = new List<BaseStructure>();
+
+
+
+
+    private void Awake()
+    {
+        instance = this;
+        connectors.Add(core);
+    }
+    
+    public BaseStructure GetClosestStructure(Vector3 pos)
     {
         BaseStructure ret = null;
         float minDist = float.MaxValue;
         float thisDist;
 
-        foreach(BaseStructure strct in structures)
+        foreach (BaseStructure strct in structures)
         {
             thisDist = Vector3.Distance(strct.transform.position, pos);
             if (thisDist < minDist)
@@ -31,17 +53,5 @@ public class BaseManager : MonoBehaviour
 
         return ret;
     }
-
-
-    public BaseStructure core;
-
-
-
-
-    private void Awake()
-    {
-        coreStatic = core;
-    }
-
 
 }
