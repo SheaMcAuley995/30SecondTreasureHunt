@@ -13,9 +13,11 @@ public class EnemyMoter : MonoBehaviour {
 
     public void Update()
     {
-        dir = (target_Current.position - transform.position).normalized;
+
+        dir = (transform.position - BaseManager.Instance.GetClosestStructure(transform.position).transform.position).normalized;
         transform.Translate(dir * speed * Time.deltaTime ,Space.World);
         FaceTarget();
+        
     }
 
     void FaceTarget()
