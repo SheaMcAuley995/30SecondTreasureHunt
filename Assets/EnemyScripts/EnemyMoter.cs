@@ -15,24 +15,27 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
     float distFromTarget;
 
     public float attackDist;
-    public float damage;
-    public float health;
 
+    [SerializeField]
+    private float damage;
+    [SerializeField]
+    private float health;
+
+
+    public GameObject effectPrefab;
     public LayerMask whatToHit;
 
     public void Update()
     {
-        //distFromTarget = Vector3.Distance(transform.position, target_Current.position);
-        //if (target_Current != null)
-        //{
-        //    target_Current = target_Base;
-        //}
-
-
-        //if(distFromTarget <= attackDist)
-        //{
-        //    attackStruct(damage);
-        //}
+        distFromTarget = Vector3.Distance(transform.position, target_Current.position);
+        if (target_Current != null)
+        {
+            target_Current = target_Base;
+        }
+        if (distFromTarget <= attackDist)
+        {
+            attackStruct(damage);
+        }
 
         dir = (BaseManager.Instance.GetClosestStructure(transform.position).transform.position - transform.position).normalized;
         transform.Translate(dir * speed * Time.deltaTime ,Space.World);
@@ -54,15 +57,18 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
 
     public void attackStruct(float dmg)
     {
-        RaycastHit hit = Physics.Raycast(transform.position, 100f , whatToHit);
+        RaycastHit hit; 
+        Physics.Raycast(transform.position, dir, out hit, 15f);
+
+        if (hit.collider.tag == "Building")
+        {
+            Idamagable attempt = hit.collider.GetComponent<Idamagable>();
+            if (attempt != null)
+            {
+                attempt.TakeDamage(damage);
+            }
+        }
+
 
     }
-
-    private void OnDrawGizmos()
-    {
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawWireSphere(transform.position, lookRadius);
-       
-    }
-
 }
