@@ -165,7 +165,7 @@ public class BaseManager : MonoBehaviour
             {
                 if (Vector3.Distance(pos, strct.transform.position) < connectorReach)
                 {
-                    structure.ConnectToStructure(strct.transform.position);
+                    structure.ConnectToStructure(strct);
                 }
             }
         }
@@ -175,10 +175,18 @@ public class BaseManager : MonoBehaviour
             {
                 if (Vector3.Distance(pos, strct.transform.position) < connectorReach)
                 {
-                    strct.ConnectToStructure(pos);
+                    strct.ConnectToStructure(structure);
                 }
             }
         }
+    }
+
+    public void DestroyStructure(BaseStructure structure)
+    {
+        structure.DisconnectNeighbors();
+        structures.Remove(structure);
+        connectors.Remove(structure);
+        generators.Remove(structure);
     }
 
 }
