@@ -44,6 +44,9 @@ public class BaseManager : MonoBehaviour
 
     private List<BaseStructure> connectors = new List<BaseStructure>();
     private List<BaseStructure> structures = new List<BaseStructure>();
+    private List<BaseStructure> generators = new List<BaseStructure>();
+
+    private float energy = 0;
 
 
 
@@ -54,7 +57,23 @@ public class BaseManager : MonoBehaviour
         connectors.Add(core);
         structures.Add(core);
     }
-    
+
+    private void Start()
+    {
+        UIManager.Instance.SetEnergyText((int)energy);
+    }
+
+    private void FixedUpdate()
+    {
+        foreach(BaseStructure generator in generators)
+        {
+            energy += generator.energyPerSecond * Time.fixedDeltaTime;
+        }
+        UIManager.Instance.SetEnergyText((int)energy);
+    }
+
+
+
     public BaseStructure GetClosestStructure(Vector3 pos)
     {
         BaseStructure ret = null;
@@ -123,6 +142,10 @@ public class BaseManager : MonoBehaviour
         if (script.isConnector)
         {
             connectors.Add(script);
+        }
+        if(script.isEnergyGen)
+        {
+            generators.Add(script);
         }
     }
 

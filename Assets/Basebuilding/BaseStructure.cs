@@ -7,6 +7,8 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     public float personalSpace;
     public bool isConnector;
     public LineRenderer lr;
+    public bool isEnergyGen;
+    public float energyPerSecond;
 
     private float health;
 

@@ -108,3 +108,5 @@ MonoBehaviour:
   personalSpace: 1.5
   isConnector: 0
   lr: {fileID: 0}
+  isEnergyGen: 1
+  energyPerSecond: 1
