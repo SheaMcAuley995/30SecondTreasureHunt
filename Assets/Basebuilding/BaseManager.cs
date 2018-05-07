@@ -115,10 +115,38 @@ public class BaseManager : MonoBehaviour
         GameObject obj = Instantiate(prefab);
         obj.transform.position = pos;
         BaseStructure script = obj.GetComponent<BaseStructure>();
+
+        MakeConnections(script, pos);
+
         structures.Add(script);
-        if(script.isConnector)
+
+        if (script.isConnector)
         {
             connectors.Add(script);
+        }
+    }
+
+    public void MakeConnections(BaseStructure structure, Vector3 pos)
+    {
+        if(structure.isConnector)
+        {
+            foreach (BaseStructure strct in structures)
+            {
+                if (Vector3.Distance(pos, strct.transform.position) < connectorReach)
+                {
+                    structure.ConnectToStructure(strct.transform.position);
+                }
+            }
+        }
+        else
+        {
+            foreach (BaseStructure strct in connectors)
+            {
+                if (Vector3.Distance(pos, strct.transform.position) < connectorReach)
+                {
+                    strct.ConnectToStructure(pos);
+                }
+            }
         }
     }
 

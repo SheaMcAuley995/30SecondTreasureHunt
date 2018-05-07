@@ -11,7 +11,8 @@ public class AvatarController : MonoBehaviour {
     public float minHeight;
 
     public GameObject buildPlane;
-    public GameObject prefabToBuild;
+    public GameObject[] buildingPrefabs;
+    private int prefabIdx = 0;
 
     private Vector3 move;
 
@@ -21,7 +22,7 @@ public class AvatarController : MonoBehaviour {
 
     private void Awake()
     {
-        ghostStructure = Instantiate(prefabToBuild).GetComponent<BaseStructure>();
+        ghostStructure = Instantiate(buildingPrefabs[prefabIdx]).GetComponent<BaseStructure>();
     }
 
     void Update () {
@@ -37,6 +38,27 @@ public class AvatarController : MonoBehaviour {
         else if(transform.position.y > maxHeight)
         {
             transform.position -= Vector3.up * (transform.position.y - maxHeight);
+        }
+
+
+
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            --prefabIdx;
+            if(prefabIdx < 0)
+            {
+                prefabIdx = buildingPrefabs.Length - 1;
+            }
+            SetGhostStructure();
+        }
+        else if(Input.GetKeyDown(KeyCode.E))
+        {
+            ++prefabIdx;
+            if(prefabIdx >= buildingPrefabs.Length)
+            {
+                prefabIdx = 0;
+            }
+            SetGhostStructure();
         }
 
         buildPlane.transform.position = transform.position - (Vector3.up * transform.position.y);
@@ -57,8 +79,14 @@ public class AvatarController : MonoBehaviour {
 
         if(Input.GetMouseButtonDown(0) && ghostStructure.gameObject.activeInHierarchy)
         {
-            BaseManager.Instance.BuildStructure(prefabToBuild, ghostStructure.transform.position);
+            BaseManager.Instance.BuildStructure(buildingPrefabs[prefabIdx], ghostStructure.transform.position);
         }
+    }
+
+    public void SetGhostStructure()
+    {
+        Destroy(ghostStructure.gameObject);
+        ghostStructure = Instantiate(buildingPrefabs[prefabIdx]).GetComponent<BaseStructure>();
     }
 
 }
