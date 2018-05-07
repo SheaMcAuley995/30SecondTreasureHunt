@@ -39,10 +39,14 @@ public class BaseManager : MonoBehaviour
     }
 
 
+    public float connectorReach;
     public BaseStructure core;
 
     private List<BaseStructure> connectors = new List<BaseStructure>();
     private List<BaseStructure> structures = new List<BaseStructure>();
+    private List<BaseStructure> generators = new List<BaseStructure>();
+
+    private float energy = 0;
 
 
 
@@ -53,7 +57,23 @@ public class BaseManager : MonoBehaviour
         connectors.Add(core);
         structures.Add(core);
     }
-    
+
+    private void Start()
+    {
+        UIManager.Instance.SetEnergyText((int)energy);
+    }
+
+    private void FixedUpdate()
+    {
+        foreach(BaseStructure generator in generators)
+        {
+            energy += generator.energyPerSecond * Time.fixedDeltaTime;
+        }
+        UIManager.Instance.SetEnergyText((int)energy);
+    }
+
+
+
     public BaseStructure GetClosestStructure(Vector3 pos)
     {
         BaseStructure ret = null;
@@ -73,9 +93,84 @@ public class BaseManager : MonoBehaviour
         return ret;
     }
 
+    public BaseStructure GetClosestConnector(Vector3 pos)
+    {
+        BaseStructure ret = null;
+        float minDist = float.MaxValue;
+        float thisDist;
+
+        foreach (BaseStructure strct in connectors)
+        {
+            thisDist = Vector3.Distance(strct.transform.position, pos);
+            if (thisDist < minDist)
+            {
+                ret = strct;
+                minDist = thisDist;
+            }
+        }
+
+        return ret;
+    }
+
     public bool CanPlaceStructure(Transform obj)
     {
+        BaseStructure closest = GetClosestStructure(obj.position);
+        if(Vector3.Distance(obj.position, closest.transform.position) <= closest.personalSpace)
+        {
+            return false;
+        }
+
+        closest = GetClosestConnector(obj.position);
+        if (Vector3.Distance(obj.position, closest.transform.position) >= connectorReach)
+        {
+            return false;
+        }
+
         return true;
+    }
+
+    public void BuildStructure(GameObject prefab, Vector3 pos)
+    {
+        GameObject obj = Instantiate(prefab);
+        obj.transform.position = pos;
+        BaseStructure script = obj.GetComponent<BaseStructure>();
+
+        MakeConnections(script, pos);
+
+        structures.Add(script);
+
+        if (script.isConnector)
+        {
+            connectors.Add(script);
+        }
+        if(script.isEnergyGen)
+        {
+            generators.Add(script);
+        }
+    }
+
+    public void MakeConnections(BaseStructure structure, Vector3 pos)
+    {
+        if(structure.isConnector)
+        {
+            foreach (BaseStructure strct in structures)
+            {
+                if (Vector3.Distance(pos, strct.transform.position) < connectorReach)
+                {
+                    structure.ConnectToStructure(strct.transform.position);
+                }
+            }
+        }
+        else
+        {
+            foreach (BaseStructure strct in connectors)
+            {
+                if (Vector3.Distance(pos, strct.transform.position) < connectorReach)
+                {
+                    strct.ConnectToStructure(pos);
+                }
+            }
+        }
     }
 
 }
