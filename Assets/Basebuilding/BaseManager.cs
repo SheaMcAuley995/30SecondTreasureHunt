@@ -13,6 +13,25 @@ public class BaseManager : MonoBehaviour
             return instance;
         }
     }
+
+    public float BaseEdgeDist
+    {
+        get
+        {
+            float ret = core.personalSpace;
+            float thisDist;
+            foreach(BaseStructure strct in structures)
+            {
+                thisDist = Vector3.Distance(strct.transform.position, core.transform.position)
+                         + strct.personalSpace;
+                if(thisDist > ret)
+                {
+                    ret = thisDist;
+                }
+            }
+            return ret;
+        }
+    }
     
     public BaseStructure GetCore()
     {
@@ -23,7 +42,6 @@ public class BaseManager : MonoBehaviour
     public BaseStructure core;
 
     private List<BaseStructure> connectors = new List<BaseStructure>();
-
     private List<BaseStructure> structures = new List<BaseStructure>();
 
 
