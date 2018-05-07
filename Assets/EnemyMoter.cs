@@ -13,6 +13,7 @@ public class EnemyMoter : MonoBehaviour {
     public void Update()
     {
         dir = target_Base.position - transform.position;
+        dir = new Vector3.
 
 
         
