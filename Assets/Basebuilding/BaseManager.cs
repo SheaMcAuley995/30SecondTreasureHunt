@@ -39,6 +39,7 @@ public class BaseManager : MonoBehaviour
     }
 
 
+    public float connectorReach;
     public BaseStructure core;
 
     private List<BaseStructure> connectors = new List<BaseStructure>();
@@ -73,9 +74,52 @@ public class BaseManager : MonoBehaviour
         return ret;
     }
 
+    public BaseStructure GetClosestConnector(Vector3 pos)
+    {
+        BaseStructure ret = null;
+        float minDist = float.MaxValue;
+        float thisDist;
+
+        foreach (BaseStructure strct in connectors)
+        {
+            thisDist = Vector3.Distance(strct.transform.position, pos);
+            if (thisDist < minDist)
+            {
+                ret = strct;
+                minDist = thisDist;
+            }
+        }
+
+        return ret;
+    }
+
     public bool CanPlaceStructure(Transform obj)
     {
+        BaseStructure closest = GetClosestStructure(obj.position);
+        if(Vector3.Distance(obj.position, closest.transform.position) <= closest.personalSpace)
+        {
+            return false;
+        }
+
+        closest = GetClosestConnector(obj.position);
+        if (Vector3.Distance(obj.position, closest.transform.position) >= connectorReach)
+        {
+            return false;
+        }
+
         return true;
+    }
+
+    public void BuildStructure(GameObject prefab, Vector3 pos)
+    {
+        GameObject obj = Instantiate(prefab);
+        obj.transform.position = pos;
+        BaseStructure script = obj.GetComponent<BaseStructure>();
+        structures.Add(script);
+        if(script.isConnector)
+        {
+            connectors.Add(script);
+        }
     }
 
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseStructure : MonoBehaviour, Idamagable {
 
     public float personalSpace;
+    public bool isConnector;
 
     private float health;
 
