@@ -56,6 +56,7 @@ public class BaseManager : MonoBehaviour
         instance = this;
         connectors.Add(core);
         structures.Add(core);
+        generators.Add(core);
     }
 
     private void Start()
@@ -131,9 +132,16 @@ public class BaseManager : MonoBehaviour
 
     public void BuildStructure(GameObject prefab, Vector3 pos)
     {
+        if(energy < prefab.GetComponent<BaseStructure>().energyCost)
+        {
+            return;
+        }
+
         GameObject obj = Instantiate(prefab);
         obj.transform.position = pos;
         BaseStructure script = obj.GetComponent<BaseStructure>();
+
+        energy -= script.energyCost;
 
         MakeConnections(script, pos);
 

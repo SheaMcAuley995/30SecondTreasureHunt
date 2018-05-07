@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BaseStructure : MonoBehaviour, Idamagable {
 
+    public float energyCost;
+    public string structureName;
     public float personalSpace;
     public bool isConnector;
     public LineRenderer lr;
@@ -19,7 +21,6 @@ public class BaseStructure : MonoBehaviour, Idamagable {
 
     public void ConnectToStructure(Vector3 pos)
     {
-        Debug.Log(lr);
         if(lr != null)
         {
             lr.positionCount += 2;

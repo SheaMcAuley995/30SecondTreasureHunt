@@ -105,6 +105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36dcc38060a4c594b994c869b90824ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  energyCost: 25
+  structureName: Generator
   personalSpace: 1.5
   isConnector: 0
   lr: {fileID: 0}
