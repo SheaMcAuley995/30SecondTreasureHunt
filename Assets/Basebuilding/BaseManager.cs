@@ -33,6 +33,7 @@ public class BaseManager : MonoBehaviour
     {
         instance = this;
         connectors.Add(core);
+        structures.Add(core);
     }
     
     public BaseStructure GetClosestStructure(Vector3 pos)
@@ -52,6 +53,11 @@ public class BaseManager : MonoBehaviour
         }
 
         return ret;
+    }
+
+    public bool CanPlaceStructure(Transform obj)
+    {
+        return true;
     }
 
 }
