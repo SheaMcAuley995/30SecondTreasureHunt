@@ -6,13 +6,15 @@ using UnityEngine.UI;
 public class SpawnWave : MonoBehaviour {
 
     public Transform enemyPrefab;
+    
+    public Transform spawnPoint;
+    public float spawnDist;
 
-    private Transform spawnPoint;
 
-    public float timeBetweenWaves = 30f;
-    private float countDown = 30f;
+    public float timeBetweenWaves = 3f;
+    private float countDown = 3f;
 
-    public Text waveCountdownText;
+    //public Text waveCountdownText;
 
     private int waveIndex = 0;
 
@@ -25,7 +27,7 @@ public class SpawnWave : MonoBehaviour {
         }
         countDown -= Time.deltaTime;
 
-        waveCountdownText.text = Mathf.Round(countDown).ToString();
+        //waveCountdownText.text = Mathf.Round(countDown).ToString();
     }
 
     IEnumerator SpawnNewWave()
@@ -34,6 +36,10 @@ public class SpawnWave : MonoBehaviour {
 
         for (int i = 0; i < waveIndex; i++)
         {
+            Instantiate(spawnPoint);
+            spawnPoint.position = (Random.insideUnitCircle).normalized * spawnDist;
+            spawnPoint.position = new Vector3(spawnPoint.position.x, 0, spawnPoint.position.y);
+            Debug.DrawLine(transform.position, spawnPoint.position);
             SpawnEnemy();
             yield return new WaitForSeconds(0.5f);
         }
@@ -43,5 +49,12 @@ public class SpawnWave : MonoBehaviour {
     void SpawnEnemy()
     {
         Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+    }
+
+    private void OnDrawGizmos()
+    {
+        
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, spawnDist);
     }
 }
