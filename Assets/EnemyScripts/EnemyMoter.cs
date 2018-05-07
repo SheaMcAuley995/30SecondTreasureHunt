@@ -27,20 +27,27 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
 
     public void Update()
     {
-        distFromTarget = Vector3.Distance(transform.position, target_Current.position);
-        if (target_Current != null)
+        if(target_Current != null)
         {
-            target_Current = target_Base;
+            distFromTarget = Vector3.Distance(transform.position, target_Current.position);
+
+            if (distFromTarget >= 2)
+            {
+                transform.Translate(dir * speed * Time.deltaTime, Space.World);
+                FaceTarget();
+            }
+            else
+            {
+                attackStruct(damage);
+            }
+
+            
         }
-        if (distFromTarget <= attackDist)
+        else
         {
-            attackStruct(damage);
+            FindTarget();
         }
 
-        dir = (BaseManager.Instance.GetClosestStructure(transform.position).transform.position - transform.position).normalized;
-        transform.Translate(dir * speed * Time.deltaTime ,Space.World);
-        FaceTarget();
-        
     }
 
     void FaceTarget()
@@ -55,20 +62,21 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
         health -= dmg;
     }
 
+    public void FindTarget()
+    {
+        target_Current = BaseManager.Instance.GetClosestStructure(transform.position).transform;
+        dir = (BaseManager.Instance.GetClosestStructure(transform.position).transform.position - transform.position).normalized;
+    }
+
+
     public void attackStruct(float dmg)
     {
-        RaycastHit hit; 
-        Physics.Raycast(transform.position, dir, out hit, 15f);
 
-        if (hit.collider.tag == "Building")
-        {
-            Idamagable attempt = hit.collider.GetComponent<Idamagable>();
+        Idamagable attempt = target_Current.GetComponent<Idamagable>();
             if (attempt != null)
             {
                 attempt.TakeDamage(damage);
             }
-        }
-
-
     }
 }
+
