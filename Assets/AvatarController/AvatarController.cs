@@ -25,6 +25,12 @@ public class AvatarController : MonoBehaviour {
         ghostStructure = Instantiate(buildingPrefabs[prefabIdx]).GetComponent<BaseStructure>();
     }
 
+    private void Start()
+    {
+        UIManager.Instance.SetNameText(ghostStructure.structureName);
+        UIManager.Instance.SetCostText((int)ghostStructure.energyCost);
+    }
+
     void Update () {
         move.x = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
         move.z = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
@@ -87,6 +93,8 @@ public class AvatarController : MonoBehaviour {
     {
         Destroy(ghostStructure.gameObject);
         ghostStructure = Instantiate(buildingPrefabs[prefabIdx]).GetComponent<BaseStructure>();
+        UIManager.Instance.SetNameText(ghostStructure.structureName);
+        UIManager.Instance.SetCostText((int)ghostStructure.energyCost);
     }
 
 }

@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour {
         }
     }
 
+    public Text strctNameText;
+    public Text strctCostText;
     public Text energyText;
 
 
@@ -22,6 +24,16 @@ public class UIManager : MonoBehaviour {
     private void Awake()
     {
         instance = this;
+    }
+
+    public void SetNameText(string name)
+    {
+        strctNameText.text = "BUILDING TYPE: " + name;
+    }
+
+    public void SetCostText(int cost)
+    {
+        strctCostText.text = "COST: " + cost;
     }
 
     public void SetEnergyText(int energy)

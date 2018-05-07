@@ -94,9 +94,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36dcc38060a4c594b994c869b90824ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  energyCost: 5
+  structureName: Connector
   personalSpace: 1.5
   isConnector: 1
   lr: {fileID: 120655108121317016}
+  isEnergyGen: 0
+  energyPerSecond: 0
 --- !u!120 &120655108121317016
 LineRenderer:
   m_ObjectHideFlags: 1
