@@ -68,7 +68,10 @@ public class BaseManager : MonoBehaviour
     {
         foreach(BaseStructure generator in generators)
         {
-            energy += generator.energyPerSecond * Time.fixedDeltaTime;
+            if(generator.Activated)
+            {
+                energy += generator.energyPerSecond * Time.fixedDeltaTime;
+            }
         }
         UIManager.Instance.SetEnergyText((int)energy);
     }
@@ -159,6 +162,8 @@ public class BaseManager : MonoBehaviour
 
     public void MakeConnections(BaseStructure structure, Vector3 pos)
     {
+        bool connectedToActive = false;
+
         if(structure.isConnector)
         {
             foreach (BaseStructure strct in structures)
@@ -166,6 +171,10 @@ public class BaseManager : MonoBehaviour
                 if (Vector3.Distance(pos, strct.transform.position) < connectorReach)
                 {
                     structure.ConnectToStructure(strct);
+                    if(strct.Activated)
+                    {
+                        connectedToActive = true;
+                    }
                 }
             }
         }
@@ -176,8 +185,21 @@ public class BaseManager : MonoBehaviour
                 if (Vector3.Distance(pos, strct.transform.position) < connectorReach)
                 {
                     strct.ConnectToStructure(structure);
+                    if (strct.Activated)
+                    {
+                        connectedToActive = true;
+                    }
                 }
             }
+        }
+
+        if(!connectedToActive)
+        {
+            structure.Deactivate();
+        }
+        else
+        {
+            structure.Activate();
         }
     }
 
@@ -187,6 +209,8 @@ public class BaseManager : MonoBehaviour
         structures.Remove(structure);
         connectors.Remove(structure);
         generators.Remove(structure);
+        
+        Destroy(structure.gameObject);
     }
 
 }

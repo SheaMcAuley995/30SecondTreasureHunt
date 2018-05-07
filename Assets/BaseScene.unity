@@ -270,8 +270,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 239919017}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.51381254, y: 0.5, z: 1.5346298}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -288,12 +288,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energyCost: 0
-  structureName: 
-  personalSpace: 2
-  isConnector: 0
+  structureName: Core
+  personalSpace: 3
+  maxHealth: 100
+  isConnector: 1
   lr: {fileID: 239919023}
   isEnergyGen: 1
   energyPerSecond: 5
+  isCore: 1
 --- !u!120 &239919023
 LineRenderer:
   m_ObjectHideFlags: 0
