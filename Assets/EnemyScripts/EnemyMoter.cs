@@ -29,7 +29,7 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
 
     void Awake()
     {
-        
+        target_Base = BaseManager.Instance.GetCore().transform;
         BaseManager.Instance.onStructureAdded += OnBuildFindTarget;
     }
 
