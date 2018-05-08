@@ -127,7 +127,7 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
                 lr.SetPosition(1, target_Current.transform.position);
             }
          
-            Destroy(trail.gameObject, 0.09f);
+            Destroy(trail.gameObject, 0.05f);
             Destroy(splosionPrefab, 1f);
 
                 attempt.TakeDamage(damage);
