@@ -43,7 +43,7 @@ public class SpawnWave : MonoBehaviour {
             spawnPoint.position = new Vector3(spawnPoint.position.x, 0, spawnPoint.position.y);
             Debug.DrawLine(transform.position, spawnPoint.position);
             SpawnEnemy();
-            yield return new WaitForSeconds(0.5f);
+            yield return null;
         }
 
     }
