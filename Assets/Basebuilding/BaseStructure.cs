@@ -17,7 +17,7 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     public float energyPerSecond;
     [Header("Gun")]
     public bool isGun;
-    public float fireRate;
+    public float gunCooldown;
     public float range;
     public float damage;
     public float shotEnergyCost;
@@ -43,15 +43,23 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     private float health;
     private float gunHeat = 0;
     private List<BaseStructure> connections = new List<BaseStructure>();
+    private EnemyMoter target = null;
 
 
 
     private void Awake()
     {
         health = maxHealth;
-        shotRenderer.enabled = false;
-        shotRenderer.positionCount = 2;
-        shotRenderer.SetPosition(0, transform.position);
+    }
+
+    private void Start()
+    {
+        if (shotRenderer != null)
+        {
+            shotRenderer.enabled = false;
+            shotRenderer.positionCount = 2;
+            shotRenderer.SetPosition(0, transform.position);
+        }
     }
 
     public void TakeDamage(float dmg)
@@ -192,13 +200,36 @@ public class BaseStructure : MonoBehaviour, Idamagable {
 
     public void GunUpdate(float dt)
     {
-        if(gunHeat <= 0)
+        if(gunHeat <= 0 && activated)
         {
-            //shoot
-            shotRenderer.SetPosition(1, Vector3.zero); //will be enemy pos
-            shotRenderer.enabled = true;
-            CancelInvoke();
-            Invoke("ShutoffShotRenderer", shotRenderTime);
+            if(target == null
+            || Vector3.Distance(target.transform.position, transform.position) > range)
+            {
+                EnemyMoter enemy = EnemyManager.Instance.getClosestEnemy(transform.position);
+                if (enemy != null
+                && Vector3.Distance(enemy.transform.position, transform.position) <= range)
+                {
+                    target = enemy;
+                }
+                else
+                {
+                    target = null;
+                }
+            }
+            
+            if(target != null)
+            {
+                target.TakeDamage(damage);
+                gunHeat = gunCooldown;
+                shotRenderer.SetPosition(1, target.transform.position);
+                shotRenderer.enabled = true;
+                CancelInvoke();
+                Invoke("ShutoffShotRenderer", shotRenderTime);
+            }
+        }
+        else if(gunHeat > 0)
+        {
+            gunHeat -= dt;
         }
     }
 
