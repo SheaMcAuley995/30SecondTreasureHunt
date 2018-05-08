@@ -97,7 +97,7 @@ MonoBehaviour:
   energyCost: 5
   structureName: Connector
   personalSpace: 1.5
-  maxHealth: 0
+  maxHealth: 10
   isConnector: 1
   lr: {fileID: 120655108121317016}
   isEnergyGen: 0

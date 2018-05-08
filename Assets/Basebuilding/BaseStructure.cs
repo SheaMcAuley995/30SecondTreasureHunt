@@ -47,7 +47,7 @@ public class BaseStructure : MonoBehaviour, Idamagable {
             activated = false;
             foreach (BaseStructure strct in connections)
             {
-                if (strct.Activated && !strct.IsConnectedToCore(this))
+                if (isCore || strct.Activated && !strct.IsConnectedToCore(this, this))
                 {
                     strct.Deactivate();
                 }
@@ -102,7 +102,7 @@ public class BaseStructure : MonoBehaviour, Idamagable {
         }
     }
 
-    public bool IsConnectedToCore(BaseStructure caller)
+    public bool IsConnectedToCore(BaseStructure caller, BaseStructure toBeDeleted)
     {
         if(!checkedForCoreConnection)
         {
@@ -121,7 +121,7 @@ public class BaseStructure : MonoBehaviour, Idamagable {
 
         foreach(BaseStructure strct in connections)
         {
-            if(strct.isCore)
+            if(strct != toBeDeleted && strct.isCore)
             {
                 savedCoreConnectAnswer = true;
                 return true;
@@ -130,7 +130,7 @@ public class BaseStructure : MonoBehaviour, Idamagable {
 
         if (connections.Count == 1)
         {
-            savedCoreConnectAnswer = true;
+            savedCoreConnectAnswer = false;
             return false;
         }
 
@@ -144,7 +144,7 @@ public class BaseStructure : MonoBehaviour, Idamagable {
             
             foreach (BaseStructure strct in connections)
             {
-                if(strct == caller)
+                if(strct == caller || strct == toBeDeleted)
                 {
                     continue;
                 }
@@ -158,7 +158,12 @@ public class BaseStructure : MonoBehaviour, Idamagable {
                 }
             }
             
-            if(toCheck.IsConnectedToCore(this))
+            if(toCheck == null)
+            {
+                savedCoreConnectAnswer = false;
+                return false;
+            }
+            else if(toCheck.IsConnectedToCore(this, toBeDeleted))
             {
                 savedCoreConnectAnswer = true;
                 return true;
