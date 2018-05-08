@@ -711,11 +711,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f6045eabf65e04895853288c6bdc5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starCount: 200
+  starCount: 500
   fieldSize: 100
-  starMinHeight: -10
+  starMinHeight: -40
   starMaxHeight: -50
-  starMaxSize: 0.5
+  starMaxSize: 0.2
   starMinSize: 0.1
   starPrefab: {fileID: 1680523737883732, guid: 1e56d9cc9d2272042a1705b90a05ee3b, type: 2}
   camTrans: {fileID: 538357688}
@@ -1014,7 +1014,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1466760113557568, guid: 9139a58c6eebc5b4492301363d7ca14f,
     type: 2}
-  spawnPoint: {fileID: 4907968296028998, guid: 84e436c700dee064388d5777abf4950f, type: 2}
+  spawnPoint: {fileID: 4230084612892782, guid: 84e436c700dee064388d5777abf4950f, type: 2}
   spawnDist: 50
   timeBetweenWaves: 5
 --- !u!4 &1653949516
