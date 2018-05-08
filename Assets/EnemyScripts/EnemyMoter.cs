@@ -105,6 +105,7 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
 
     public void die()
     {
+        BaseManager.Instance.onStructureAdded -= OnBuildFindTarget;
         EnemyManager.Instance.enemies.Remove(this);
         Destroy(this.gameObject);
     }
