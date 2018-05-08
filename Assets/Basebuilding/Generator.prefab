@@ -165,7 +165,7 @@ MonoBehaviour:
   isConnector: 0
   lr: {fileID: 0}
   isEnergyGen: 1
-  energyPerSecond: 1
+  energyPerSecond: 0.2
   isGun: 0
   gunCooldown: 0
   range: 0

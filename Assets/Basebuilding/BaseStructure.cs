@@ -228,9 +228,10 @@ public class BaseStructure : MonoBehaviour, Idamagable {
                 }
             }
             
-            if(target != null)
+            if(target != null && BaseManager.Instance.Energy >= shotEnergyCost)
             {
                 target.TakeDamage(damage);
+                BaseManager.Instance.DrainEnergy(shotEnergyCost);
                 gunHeat = gunCooldown;
                 shotRenderer.SetPosition(1, target.transform.position);
                 shotRenderer.enabled = true;

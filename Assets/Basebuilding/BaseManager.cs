@@ -48,6 +48,13 @@ public class BaseManager : MonoBehaviour
     private List<BaseStructure> guns = new List<BaseStructure>();
 
     private float energy = 0;
+    public float Energy
+    {
+        get
+        {
+            return energy;
+        }
+    }
 
     public delegate void OnStructureAdded(BaseStructure strct);
     public OnStructureAdded onStructureAdded = null;
@@ -233,6 +240,15 @@ public class BaseManager : MonoBehaviour
         guns.Remove(structure);
 
         Destroy(structure.gameObject);
+    }
+
+    public void DrainEnergy(float amt)
+    {
+        energy -= amt;
+        if(energy < 0)
+        {
+            energy = 0;
+        }
     }
 
     public void ResetCoreChecks()
