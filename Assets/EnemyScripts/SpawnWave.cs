@@ -12,7 +12,7 @@ public class SpawnWave : MonoBehaviour {
 
 
     public float timeBetweenWaves = 3f;
-    private float countDown;
+    private float countDown = 30f;
 
     //public Text waveCountdownText;
 
