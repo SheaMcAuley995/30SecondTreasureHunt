@@ -230,7 +230,8 @@ public class BaseManager : MonoBehaviour
         structures.Remove(structure);
         connectors.Remove(structure);
         generators.Remove(structure);
-        
+        guns.Remove(structure);
+
         Destroy(structure.gameObject);
     }
 
