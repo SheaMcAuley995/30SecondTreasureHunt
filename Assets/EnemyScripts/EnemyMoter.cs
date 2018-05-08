@@ -25,8 +25,16 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
     public GameObject effectPrefab;
     public LayerMask whatToHit;
 
+
+    void start()
+    {
+        BaseManager.Instance.onStructureAdded += OnBuildFindTarget;
+    }
+
     public void Update()
     {
+       
+
         if(target_Current != null)
         {
             distFromTarget = Vector3.Distance(transform.position, target_Current.position);
@@ -40,8 +48,6 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
             {
                 attackStruct(damage);
             }
-
-            
         }
         else
         {
@@ -68,6 +74,14 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
         dir = (BaseManager.Instance.GetClosestStructure(transform.position).transform.position - transform.position).normalized;
     }
 
+    public void OnBuildFindTarget(BaseStructure building)
+    {
+        if(Vector3.Distance(building.transform.position,transform.position) < distFromTarget)
+        {
+            target_Current = building.transform;
+            dir = (building.transform.position - transform.position).normalized;
+        }
+    }
 
     public void attackStruct(float dmg)
     {
