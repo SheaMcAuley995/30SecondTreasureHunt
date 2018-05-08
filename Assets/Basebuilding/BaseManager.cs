@@ -170,8 +170,12 @@ public class BaseManager : MonoBehaviour
         {
             generators.Add(script);
         }
+        if (script.isGun)
+        {
+            guns.Add(script);
+        }
 
-        if(onStructureAdded != null)
+        if (onStructureAdded != null)
         {
             onStructureAdded(script);
         }
