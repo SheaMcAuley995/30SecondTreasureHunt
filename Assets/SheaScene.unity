@@ -409,11 +409,18 @@ MonoBehaviour:
   energyPerSecond: 0
   isGun: 0
   gunCooldown: 0
-  range: 0
+  gunRange: 0
   damage: 0
   shotEnergyCost: 0
   shotRenderer: {fileID: 0}
   shotRenderTime: 0
+  isRepair: 0
+  repairCooldown: 0
+  repairRange: 0
+  repairAmt: 0
+  repairEnergyCost: 0
+  repairRenderer: {fileID: 0}
+  repairRenderTime: 0
   isCore: 0
   connectionOnMat: {fileID: 0}
   connectionOffMat: {fileID: 0}
@@ -853,7 +860,8 @@ MonoBehaviour:
     type: 2}
   spawnPoint: {fileID: 4169868424664262, guid: 4421f1433d6cb3748be298254369d9b5, type: 2}
   spawnDist: 99.76
-  timeBetweenWaves: 5
+  timeBetweenWaves: 30
+  EnemiesPerWave: 5
 --- !u!4 &1712164614
 Transform:
   m_ObjectHideFlags: 0
@@ -908,11 +916,18 @@ MonoBehaviour:
   energyPerSecond: 5
   isGun: 0
   gunCooldown: 0
-  range: 0
+  gunRange: 0
   damage: 0
   shotEnergyCost: 0
   shotRenderer: {fileID: 0}
   shotRenderTime: 0
+  isRepair: 0
+  repairCooldown: 0
+  repairRange: 0
+  repairAmt: 0
+  repairEnergyCost: 0
+  repairRenderer: {fileID: 0}
+  repairRenderTime: 0
   isCore: 1
   connectionOnMat: {fileID: 0}
   connectionOffMat: {fileID: 0}
@@ -1131,12 +1146,14 @@ Transform:
 --- !u!1 &1959097395
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 1597141875796068, guid: 8a375ccbfe1415140bdf8a133453a998,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1959097401}
   - component: {fileID: 1959097400}
+  - component: {fileID: 1959097402}
   - component: {fileID: 1959097399}
   - component: {fileID: 1959097398}
   - component: {fileID: 1959097397}
@@ -1151,34 +1168,38 @@ GameObject:
 --- !u!81 &1959097396
 AudioListener:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 81829041452784402, guid: 8a375ccbfe1415140bdf8a133453a998,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1959097395}
   m_Enabled: 1
 --- !u!124 &1959097397
 Behaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 124634344011962490, guid: 8a375ccbfe1415140bdf8a133453a998,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1959097395}
   m_Enabled: 1
 --- !u!92 &1959097398
 Behaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 92443189589346410, guid: 8a375ccbfe1415140bdf8a133453a998,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1959097395}
   m_Enabled: 1
 --- !u!20 &1959097399
 Camera:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 20355305860224568, guid: 8a375ccbfe1415140bdf8a133453a998,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1959097395}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1208,7 +1229,8 @@ Camera:
 --- !u!114 &1959097400
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 114948529527253476, guid: 8a375ccbfe1415140bdf8a133453a998,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1959097395}
   m_Enabled: 1
@@ -1224,10 +1246,18 @@ MonoBehaviour:
   buildingPrefabs:
   - {fileID: 1586547735045892, guid: 2d5459170d8ce5448acbfb1d9945bc83, type: 2}
   - {fileID: 1376038961585610, guid: ff2187872afc8bb428c41f72019c0297, type: 2}
+  - {fileID: 1865223493593434, guid: f9a1f375d001fcf4caad8d4c173c4a96, type: 2}
+  - {fileID: 1745536751204652, guid: 505a6cda5d34ac545a4e718965f6ca87, type: 2}
+  circleDrawers: {fileID: 0}
+  connectRange: {fileID: 0}
+  connectToConnectorRange: {fileID: 0}
+  shootRange: {fileID: 0}
+  repairRange: {fileID: 0}
 --- !u!4 &1959097401
 Transform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 4699680351935936, guid: 8a375ccbfe1415140bdf8a133453a998,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1959097395}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
@@ -1237,6 +1267,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &1959097402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1959097395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02706ceea7184cb429127d51e5716e96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  segments: 50
+  xradius: 5
+  yradius: 5
+  line: {fileID: 0}
 --- !u!1 &2115964634
 GameObject:
   m_ObjectHideFlags: 0
