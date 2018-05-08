@@ -108,7 +108,7 @@ MonoBehaviour:
   energyCost: 25
   structureName: Generator
   personalSpace: 1.5
-  maxHealth: 0
+  maxHealth: 500
   isConnector: 0
   lr: {fileID: 0}
   isEnergyGen: 1
