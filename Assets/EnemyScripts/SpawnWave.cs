@@ -56,10 +56,4 @@ public class SpawnWave : MonoBehaviour {
         EnemyManager.Instance.enemies.Add(script);
     }
 
-    private void OnDrawGizmos()
-    {
-        
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, (BaseManager.Instance.BaseEdgeDist + spawnDist));
-    }
 }
