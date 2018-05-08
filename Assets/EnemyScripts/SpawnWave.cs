@@ -50,7 +50,7 @@ public class SpawnWave : MonoBehaviour {
     {
        
         GameObject enemy = Instantiate(enemyPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
-        enemy.transform.position = spawnPoint.position;
+    //    enemy.transform.position = spawnPoint.position;
         EnemyMoter script = enemy.GetComponent<EnemyMoter>();
 
         EnemyManager.Instance.enemies.Add(script);
