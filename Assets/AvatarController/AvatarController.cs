@@ -14,6 +14,12 @@ public class AvatarController : MonoBehaviour {
     public GameObject[] buildingPrefabs;
     private int prefabIdx = 0;
 
+    [Header("Circle Drawers")]
+    public Transform circleDrawers;
+    public CircleDrawer connectRange;
+    public CircleDrawer connectToConnectorRange;
+    public CircleDrawer shootRange;
+
     private Vector3 move;
 
     private BaseStructure ghostStructure;
@@ -29,6 +35,7 @@ public class AvatarController : MonoBehaviour {
     {
         UIManager.Instance.SetNameText(ghostStructure.structureName);
         UIManager.Instance.SetCostText((int)ghostStructure.energyCost);
+        ConfigureCircleDrawrers();
     }
 
     void Update () {
@@ -56,6 +63,7 @@ public class AvatarController : MonoBehaviour {
                 prefabIdx = buildingPrefabs.Length - 1;
             }
             SetGhostStructure();
+            ConfigureCircleDrawrers();
         }
         else if(Input.GetKeyDown(KeyCode.E))
         {
@@ -65,6 +73,7 @@ public class AvatarController : MonoBehaviour {
                 prefabIdx = 0;
             }
             SetGhostStructure();
+            ConfigureCircleDrawrers();
         }
 
         buildPlane.transform.position = transform.position - (Vector3.up * transform.position.y);
@@ -73,7 +82,8 @@ public class AvatarController : MonoBehaviour {
         if(Physics.Raycast(ray, out hit, 1000.0f, LayerMask.GetMask("BuildPlane")))
         {
             ghostStructure.transform.position = hit.point;
-            if(BaseManager.Instance.CanPlaceStructure(ghostStructure.transform))
+            circleDrawers.position = hit.point;
+            if (BaseManager.Instance.CanPlaceStructure(ghostStructure.transform))
             {
                 ghostStructure.gameObject.SetActive(true);
             }
@@ -81,6 +91,7 @@ public class AvatarController : MonoBehaviour {
             {
                 ghostStructure.gameObject.SetActive(false);
             }
+            ConfigureCircleDrawrers();
         }
 
         if(Input.GetMouseButtonDown(0) && ghostStructure.gameObject.activeInHierarchy)
@@ -95,6 +106,45 @@ public class AvatarController : MonoBehaviour {
         ghostStructure = Instantiate(buildingPrefabs[prefabIdx]).GetComponent<BaseStructure>();
         UIManager.Instance.SetNameText(ghostStructure.structureName);
         UIManager.Instance.SetCostText((int)ghostStructure.energyCost);
+    }
+
+    public void ConfigureCircleDrawrers()
+    {
+        if(!ghostStructure.gameObject.activeInHierarchy || !ghostStructure.isConnector)
+        {
+            connectRange.gameObject.SetActive(false);
+        }
+        else
+        {
+            connectRange.xradius = BaseManager.Instance.connectorReach;
+            connectRange.yradius = BaseManager.Instance.connectorReach;
+            connectRange.CreatePoints();
+            connectRange.gameObject.SetActive(true);
+        }
+
+        if (!ghostStructure.gameObject.activeInHierarchy || ghostStructure.isConnector)
+        {
+            connectToConnectorRange.gameObject.SetActive(false);
+        }
+        else
+        {
+            connectToConnectorRange.xradius = BaseManager.Instance.connectorReach;
+            connectToConnectorRange.yradius = BaseManager.Instance.connectorReach;
+            connectToConnectorRange.CreatePoints();
+            connectToConnectorRange.gameObject.SetActive(true);
+        }
+
+        if (!ghostStructure.gameObject.activeInHierarchy || !ghostStructure.isGun)
+        {
+            shootRange.gameObject.SetActive(false);
+        }
+        else
+        {
+            shootRange.xradius = ghostStructure.range;
+            shootRange.yradius = ghostStructure.range;
+            shootRange.CreatePoints();
+            shootRange.gameObject.SetActive(true);
+        }
     }
 
 }
