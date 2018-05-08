@@ -59,7 +59,6 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
             {
                 if(attackIntraval <= 0)
                 {
-                    Debug.Log("ATTACK!");
                     attackStruct(damage);
                     attackIntraval = attackSpeed;
                 }
