@@ -19,6 +19,7 @@ public class AvatarController : MonoBehaviour {
     public CircleDrawer connectRange;
     public CircleDrawer connectToConnectorRange;
     public CircleDrawer shootRange;
+    public CircleDrawer repairRange;
 
     private Vector3 move;
 
@@ -140,10 +141,22 @@ public class AvatarController : MonoBehaviour {
         }
         else
         {
-            shootRange.xradius = ghostStructure.range;
-            shootRange.yradius = ghostStructure.range;
+            shootRange.xradius = ghostStructure.gunRange;
+            shootRange.yradius = ghostStructure.gunRange;
             shootRange.CreatePoints();
             shootRange.gameObject.SetActive(true);
+        }
+
+        if (!ghostStructure.gameObject.activeInHierarchy || !ghostStructure.isRepair)
+        {
+            repairRange.gameObject.SetActive(false);
+        }
+        else
+        {
+            repairRange.xradius = ghostStructure.repairRange;
+            repairRange.yradius = ghostStructure.repairRange;
+            repairRange.CreatePoints();
+            repairRange.gameObject.SetActive(true);
         }
     }
 

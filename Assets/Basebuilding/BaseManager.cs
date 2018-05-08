@@ -46,6 +46,7 @@ public class BaseManager : MonoBehaviour
     private List<BaseStructure> connectors = new List<BaseStructure>();
     private List<BaseStructure> generators = new List<BaseStructure>();
     private List<BaseStructure> guns = new List<BaseStructure>();
+    private List<BaseStructure> repairers = new List<BaseStructure>();
 
     private float energy = 0;
     public float Energy
@@ -93,6 +94,13 @@ public class BaseManager : MonoBehaviour
                 gun.GunUpdate(Time.fixedDeltaTime);
             }
         }
+        foreach (BaseStructure repair in repairers)
+        {
+            if (repair.Activated)
+            {
+                repair.RepairUpdate(Time.fixedDeltaTime);
+            }
+        }
     }
 
 
@@ -105,6 +113,30 @@ public class BaseManager : MonoBehaviour
 
         foreach (BaseStructure strct in structures)
         {
+            thisDist = Vector3.Distance(strct.transform.position, pos);
+            if (thisDist < minDist)
+            {
+                ret = strct;
+                minDist = thisDist;
+            }
+        }
+
+        return ret;
+    }
+
+    public BaseStructure GetClosestDamagedStructure(Vector3 pos)
+    {
+        BaseStructure ret = null;
+        float minDist = float.MaxValue;
+        float thisDist;
+
+        foreach (BaseStructure strct in structures)
+        {
+            if(strct.Health >= strct.maxHealth)
+            {
+                continue;
+            }
+
             thisDist = Vector3.Distance(strct.transform.position, pos);
             if (thisDist < minDist)
             {
@@ -180,6 +212,10 @@ public class BaseManager : MonoBehaviour
         if (script.isGun)
         {
             guns.Add(script);
+        }
+        if (script.isRepair)
+        {
+            repairers.Add(script);
         }
 
         if (onStructureAdded != null)

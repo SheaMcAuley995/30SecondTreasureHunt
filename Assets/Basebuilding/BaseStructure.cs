@@ -19,11 +19,19 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     [Header("Gun")]
     public bool isGun;
     public float gunCooldown;
-    public float range;
+    public float gunRange;
     public float damage;
     public float shotEnergyCost;
     public LineRenderer shotRenderer;
     public float shotRenderTime;
+    [Header("Repair")]
+    public bool isRepair;
+    public float repairCooldown;
+    public float repairRange;
+    public float repairAmt;
+    public float repairEnergyCost;
+    public LineRenderer repairRenderer;
+    public float repairRenderTime;
     [Header("Core")]
     public bool isCore;
     [Header("Other")]
@@ -44,7 +52,15 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     private bool checkedForCoreConnection = false;
 
     private float health;
+    public float Health
+    {
+        get
+        {
+            return health;
+        }
+    }
     private float gunHeat = 0;
+    private float repairHeat = 0;
     private List<BaseStructure> connections = new List<BaseStructure>();
     private EnemyMoter target = null;
 
@@ -214,11 +230,11 @@ public class BaseStructure : MonoBehaviour, Idamagable {
         if(gunHeat <= 0 && activated)
         {
             if(target == null
-            || Vector3.Distance(target.transform.position, transform.position) > range)
+            || Vector3.Distance(target.transform.position, transform.position) > gunRange)
             {
                 EnemyMoter enemy = EnemyManager.Instance.getClosestEnemy(transform.position);
                 if (enemy != null
-                && Vector3.Distance(enemy.transform.position, transform.position) <= range)
+                && Vector3.Distance(enemy.transform.position, transform.position) <= gunRange)
                 {
                     target = enemy;
                 }
@@ -248,6 +264,36 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     private void ShutoffShotRenderer()
     {
         shotRenderer.enabled = false;
+    }
+
+    public void RepairUpdate(float dt)
+    {
+        if (repairHeat <= 0 && activated)
+        {
+            BaseStructure target = BaseManager.Instance.GetClosestDamagedStructure(transform.position);
+
+            if (target != null
+            && BaseManager.Instance.Energy >= repairEnergyCost
+            && Vector3.Distance(target.transform.position, transform.position) <= repairRange)
+            {
+                target.TakeDamage(-repairAmt);
+                BaseManager.Instance.DrainEnergy(repairEnergyCost);
+                repairHeat = repairCooldown;
+                repairRenderer.SetPosition(1, target.transform.position);
+                repairRenderer.enabled = true;
+                CancelInvoke();
+                Invoke("ShutoffRepairRenderer", repairRenderTime);
+            }
+        }
+        else if (repairHeat > 0)
+        {
+            repairHeat -= dt;
+        }
+    }
+
+    private void ShutoffRepairRenderer()
+    {
+        repairRenderer.enabled = false;
     }
 
 }
