@@ -11,11 +11,12 @@ public class SpawnWave : MonoBehaviour {
     public float spawnDist;
 
 
-    public float timeBetweenWaves = 3f;
+    public float timeBetweenWaves = 30f;
     private float countDown = 30f;
 
     //public Text waveCountdownText;
 
+    public int EnemiesPerWave = 5;
     private int waveIndex = 0;
 
     private void Update()
@@ -32,7 +33,7 @@ public class SpawnWave : MonoBehaviour {
 
     IEnumerator SpawnNewWave()
     {
-        waveIndex++;
+        waveIndex += EnemiesPerWave;
 
         for (int i = 0; i < waveIndex; i++)
         {

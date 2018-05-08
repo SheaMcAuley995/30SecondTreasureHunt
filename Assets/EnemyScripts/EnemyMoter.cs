@@ -26,6 +26,9 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
     public GameObject splosionPrefab;
     public LayerMask whatToHit;
 
+    public GameObject ExplosionSparks;
+    public GameObject ExplosionBits;
+
     public float attackSpeed = 10f;
     private float attackIntraval = 0f;
 
@@ -108,8 +111,23 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
     {
         BaseManager.Instance.onStructureAdded -= OnBuildFindTarget;
         EnemyManager.Instance.enemies.Remove(this);
-        Destroy(this.gameObject);
+        Destroy(this);
+        gameObject.AddComponent<Rigidbody>();
+        Vector3 addTorque = new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), Random.Range(-5, 5));
+        GetComponent<Rigidbody>().useGravity = false;
+        GetComponent<Rigidbody>().AddForce(-dir, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddTorque(addTorque, ForceMode.Impulse);
+        StartCoroutine(explosionEffect());
+        Destroy(this.gameObject, 3);
     }
+
+    IEnumerator explosionEffect()
+    {
+        yield return new WaitForSeconds(2);
+        Instantiate(ExplosionSparks,transform.position,transform.rotation);
+        Instantiate(ExplosionBits,transform.position,transform.rotation);
+    }
+
 
     public void attackStruct(float dmg)
     {
@@ -119,7 +137,7 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
             {
             GameObject trail = Instantiate(trailPrefab, transform.position, transform.rotation);
             LineRenderer lr = trail.GetComponent<LineRenderer>();
-            Instantiate(splosionPrefab,target_Current.transform.position, transform.rotation);
+            GameObject spawnedSplosion = Instantiate(splosionPrefab,target_Current.transform.position, transform.rotation);
 
             if(lr != null)
             {
@@ -128,7 +146,7 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
             }
          
             Destroy(trail.gameObject, 0.05f);
-            Destroy(splosionPrefab, 1f);
+            Destroy(spawnedSplosion, 1f);
 
                 attempt.TakeDamage(damage);
 
