@@ -158,8 +158,8 @@ MonoBehaviour:
   isGun: 1
   gunCooldown: 0.25
   range: 5
-  damage: 10
-  shotEnergyCost: 10
+  damage: 25
+  shotEnergyCost: 5
   shotRenderer: {fileID: 120142485272053746}
   shotRenderTime: 0.1
   isCore: 0
