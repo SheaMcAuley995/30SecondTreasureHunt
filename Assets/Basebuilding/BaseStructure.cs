@@ -14,6 +14,9 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     public float energyPerSecond;
     public bool isCore;
 
+    public Material connectionOnMat;
+    public Material connectionOffMat;
+
     public bool Activated
     {
         get
@@ -22,6 +25,9 @@ public class BaseStructure : MonoBehaviour, Idamagable {
         }
     }
     private bool activated = true;
+
+    private bool checkedForCoreConnection = false;
+    private bool savedCoreConnectAnswer = false;
 
     private float health;
     private List<BaseStructure> connections = new List<BaseStructure>();
@@ -38,12 +44,14 @@ public class BaseStructure : MonoBehaviour, Idamagable {
         health -= dmg;
         if(health <= 0)
         {
+            activated = false;
             foreach (BaseStructure strct in connections)
             {
                 if (strct.Activated && !strct.IsConnectedToCore(this))
                 {
                     strct.Deactivate();
                 }
+                BaseManager.Instance.ResetCoreChecks();
             }
             BaseManager.Instance.DestroyStructure(this);
         }
@@ -96,8 +104,18 @@ public class BaseStructure : MonoBehaviour, Idamagable {
 
     public bool IsConnectedToCore(BaseStructure caller)
     {
+        if(!checkedForCoreConnection)
+        {
+            checkedForCoreConnection = true;
+        }
+        else
+        {
+            return savedCoreConnectAnswer;
+        }
+
         if(isCore)
         {
+            savedCoreConnectAnswer = true;
             return true;
         }
 
@@ -105,8 +123,15 @@ public class BaseStructure : MonoBehaviour, Idamagable {
         {
             if(strct.isCore)
             {
+                savedCoreConnectAnswer = true;
                 return true;
             }
+        }
+
+        if (connections.Count == 1)
+        {
+            savedCoreConnectAnswer = true;
+            return false;
         }
 
         float lastClosest = float.MinValue;
@@ -115,13 +140,15 @@ public class BaseStructure : MonoBehaviour, Idamagable {
         int connsChecked = 0;
         while(connsChecked < connections.Count)
         {
+            currentClosest = float.MaxValue;
+            
             foreach (BaseStructure strct in connections)
             {
                 if(strct == caller)
                 {
                     continue;
                 }
-
+                
                 float dist = Vector3.Distance(strct.transform.position,
                                               BaseManager.Instance.GetCore().transform.position);
                 if(dist > lastClosest && dist < currentClosest)
@@ -130,9 +157,10 @@ public class BaseStructure : MonoBehaviour, Idamagable {
                     currentClosest = dist;
                 }
             }
-
+            
             if(toCheck.IsConnectedToCore(this))
             {
+                savedCoreConnectAnswer = true;
                 return true;
             }
 
@@ -140,12 +168,22 @@ public class BaseStructure : MonoBehaviour, Idamagable {
             ++connsChecked;
         }
 
+        savedCoreConnectAnswer = true;
         return false;
+    }
+
+    public void ResetCoreCheck()
+    {
+        checkedForCoreConnection = false;
     }
 
     public void Deactivate()
     {
         activated = false;
+        if(lr != null)
+        {
+            lr.material = connectionOffMat;
+        }
         foreach(BaseStructure strct in connections)
         {
             if(strct.Activated)
@@ -158,7 +196,11 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     public void Activate()
     {
         activated = true;
-        foreach(BaseStructure strct in connections)
+        if (lr != null)
+        {
+            lr.material = connectionOnMat;
+        }
+        foreach (BaseStructure strct in connections)
         {
             if(!strct.Activated)
             {

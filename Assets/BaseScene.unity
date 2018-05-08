@@ -294,8 +294,10 @@ MonoBehaviour:
   isConnector: 1
   lr: {fileID: 239919023}
   isEnergyGen: 1
-  energyPerSecond: 5
+  energyPerSecond: 50
   isCore: 1
+  connectionOnMat: {fileID: 2100000, guid: d1fb2c275b9ffe64fb01ea6acf44ee5d, type: 2}
+  connectionOffMat: {fileID: 2100000, guid: 51cb363eb091cd24aa79ec329d958c77, type: 2}
 --- !u!120 &239919023
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -926,6 +928,51 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1426665641}
+--- !u!1 &1653949514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1653949516}
+  - component: {fileID: 1653949515}
+  m_Layer: 0
+  m_Name: Spawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1653949515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1653949514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea8bcfea4b3e52488084587f7c6bbd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 4876220364175574, guid: 9139a58c6eebc5b4492301363d7ca14f,
+    type: 2}
+  spawnPoint: {fileID: 4907968296028998, guid: 84e436c700dee064388d5777abf4950f, type: 2}
+  spawnDist: 50
+  timeBetweenWaves: 5
+--- !u!4 &1653949516
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1653949514}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7580805, y: -1.4428964, z: 3.1197128}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1810575629
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,11 +42,14 @@ public class BaseManager : MonoBehaviour
     public float connectorReach;
     public BaseStructure core;
 
-    private List<BaseStructure> connectors = new List<BaseStructure>();
     private List<BaseStructure> structures = new List<BaseStructure>();
+    private List<BaseStructure> connectors = new List<BaseStructure>();
     private List<BaseStructure> generators = new List<BaseStructure>();
 
     private float energy = 0;
+
+    public delegate void OnStructureAdded(BaseStructure strct);
+    public OnStructureAdded onStructureAdded = null;
 
 
 
@@ -158,6 +161,11 @@ public class BaseManager : MonoBehaviour
         {
             generators.Add(script);
         }
+
+        if(onStructureAdded != null)
+        {
+            onStructureAdded(script);
+        }
     }
 
     public void MakeConnections(BaseStructure structure, Vector3 pos)
@@ -211,6 +219,14 @@ public class BaseManager : MonoBehaviour
         generators.Remove(structure);
         
         Destroy(structure.gameObject);
+    }
+
+    public void ResetCoreChecks()
+    {
+        foreach(BaseStructure strct in structures)
+        {
+            strct.ResetCoreCheck();
+        }
     }
 
 }

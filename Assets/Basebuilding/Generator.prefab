@@ -108,7 +108,11 @@ MonoBehaviour:
   energyCost: 25
   structureName: Generator
   personalSpace: 1.5
+  maxHealth: 0
   isConnector: 0
   lr: {fileID: 0}
   isEnergyGen: 1
   energyPerSecond: 1
+  isCore: 0
+  connectionOnMat: {fileID: 2100000, guid: d1fb2c275b9ffe64fb01ea6acf44ee5d, type: 2}
+  connectionOffMat: {fileID: 2100000, guid: 51cb363eb091cd24aa79ec329d958c77, type: 2}
