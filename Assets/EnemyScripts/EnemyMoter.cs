@@ -26,8 +26,10 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
     public LayerMask whatToHit;
 
 
-    void start()
+
+    void Awake()
     {
+        
         BaseManager.Instance.onStructureAdded += OnBuildFindTarget;
     }
 
@@ -51,7 +53,10 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
         }
         else
         {
-            FindTarget();
+            if(target_Base != null)
+            {
+                FindTarget();
+            }
         }
 
     }
@@ -91,6 +96,8 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
             {
                 attempt.TakeDamage(damage);
             }
+
+            
     }
 }
 
