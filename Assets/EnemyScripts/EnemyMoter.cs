@@ -22,7 +22,8 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
     private float health;
 
 
-    public GameObject effectPrefab;
+    public GameObject trailPrefab;
+    public GameObject splosionPrefab;
     public LayerMask whatToHit;
 
     public float attackSpeed = 10f;
@@ -116,7 +117,21 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
         Idamagable attempt = target_Current.GetComponent<Idamagable>();
             if (attempt != null)
             {
+            GameObject trail = Instantiate(trailPrefab, transform.position, transform.rotation);
+            LineRenderer lr = trail.GetComponent<LineRenderer>();
+            Instantiate(splosionPrefab,target_Current.transform.position, transform.rotation);
+
+            if(lr != null)
+            {
+                lr.SetPosition(0, transform.position);
+                lr.SetPosition(1, target_Current.transform.position);
+            }
+         
+            Destroy(trail.gameObject, 0.09f);
+            Destroy(splosionPrefab, 1f);
+
                 attempt.TakeDamage(damage);
+
             }
     }
 }
