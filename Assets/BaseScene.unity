@@ -878,6 +878,7 @@ MonoBehaviour:
   spawnPoint: {fileID: 4169868424664262, guid: 4421f1433d6cb3748be298254369d9b5, type: 2}
   spawnDist: 50
   timeBetweenWaves: 30
+  EnemiesPerWave: 2
 --- !u!4 &1653949516
 Transform:
   m_ObjectHideFlags: 0

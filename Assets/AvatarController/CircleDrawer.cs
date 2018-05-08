@@ -11,7 +11,7 @@ public class CircleDrawer : MonoBehaviour {
     public float yradius = 5;
     public LineRenderer line;
 
-    void Start()
+    void Awake()
     {
         line.positionCount = segments + 1;
         line.useWorldSpace = false;
