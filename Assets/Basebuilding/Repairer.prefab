@@ -198,7 +198,7 @@ MonoBehaviour:
   energyCost: 50
   structureName: Repairer
   personalSpace: 1.5
-  maxHealth: 200
+  maxHealth: 600
   isConnector: 0
   lr: {fileID: 0}
   isEnergyGen: 0
