@@ -200,7 +200,7 @@ public class BaseStructure : MonoBehaviour, Idamagable {
 
     public void GunUpdate(float dt)
     {
-        if(gunHeat <= 0)
+        if(gunHeat <= 0 && activated)
         {
             if(target == null
             || Vector3.Distance(target.transform.position, transform.position) > range)
