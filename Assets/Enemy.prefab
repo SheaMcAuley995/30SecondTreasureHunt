@@ -137,11 +137,14 @@ MonoBehaviour:
   lookRadius: 10
   speed: 10
   target_Base: {fileID: 0}
-  attackDist: 2
-  damage: 5
-  health: 15
-  effectPrefab: {fileID: 0}
+  attackDist: 4
+  damage: 50
+  health: 100
+  trailPrefab: {fileID: 1379739079942868, guid: 633aeb6a9126ad741b395f687c2e6f08,
+    type: 2}
+  splosionPrefab: {fileID: 1696398434152130, guid: b83635e10ddc1674db604e4be69e1301,
+    type: 2}
   whatToHit:
     serializedVersion: 2
     m_Bits: 0
-  attackSpeed: 3
+  attackSpeed: 1
