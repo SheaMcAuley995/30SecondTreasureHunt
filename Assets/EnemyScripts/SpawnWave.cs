@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SpawnWave : MonoBehaviour {
 
-    public Transform enemyPrefab;
+    public GameObject enemyPrefab;
     
     public Transform spawnPoint;
     public float spawnDist;
@@ -49,6 +49,11 @@ public class SpawnWave : MonoBehaviour {
     void SpawnEnemy()
     {
         Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+        GameObject enemy = Instantiate(enemyPrefab);
+        enemy.transform.position = spawnPoint.position;
+        EnemyMoter script = enemy.GetComponent<EnemyMoter>();
+
+        EnemyManager.Instance.enemies.Add(script);
     }
 
     private void OnDrawGizmos()
