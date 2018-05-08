@@ -951,8 +951,28 @@ MonoBehaviour:
   starMaxHeight: -50
   starMaxSize: 0.2
   starMinSize: 0.1
+  starMinTempK: 0
+  starMaxTempK: 100
   starPrefab: {fileID: 1680523737883732, guid: 1e56d9cc9d2272042a1705b90a05ee3b, type: 2}
   camTrans: {fileID: 538357688}
+  tempCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 100
+      value: 10000
+      inSlope: 313.84735
+      outSlope: 313.84735
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!4 &701259816
 Transform:
   m_ObjectHideFlags: 0
