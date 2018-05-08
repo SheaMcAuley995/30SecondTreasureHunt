@@ -21,6 +21,8 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     public float range;
     public float damage;
     public float shotEnergyCost;
+    public LineRenderer shotRenderer;
+    public float shotRenderTime;
     [Header("Core")]
     public bool isCore;
     [Header("Other")]
@@ -47,6 +49,9 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     private void Awake()
     {
         health = maxHealth;
+        shotRenderer.enabled = false;
+        shotRenderer.positionCount = 2;
+        shotRenderer.SetPosition(0, transform.position);
     }
 
     public void TakeDamage(float dmg)
@@ -189,8 +194,17 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     {
         if(gunHeat <= 0)
         {
-
+            //shoot
+            shotRenderer.SetPosition(1, Vector3.zero); //will be enemy pos
+            shotRenderer.enabled = true;
+            CancelInvoke();
+            Invoke("ShutoffShotRenderer", shotRenderTime);
         }
+    }
+
+    private void ShutoffShotRenderer()
+    {
+        shotRenderer.enabled = false;
     }
 
 }
