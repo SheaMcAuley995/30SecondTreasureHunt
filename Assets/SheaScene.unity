@@ -417,6 +417,8 @@ MonoBehaviour:
   isCore: 0
   connectionOnMat: {fileID: 0}
   connectionOffMat: {fileID: 0}
+  healthCanvas: {fileID: 0}
+  greenHealth: {fileID: 0}
 --- !u!1 &1090152468
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,48 +720,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1001 &1524185746
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4889014728932750, guid: b83635e10ddc1674db604e4be69e1301, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889014728932750, guid: b83635e10ddc1674db604e4be69e1301, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889014728932750, guid: b83635e10ddc1674db604e4be69e1301, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -6.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889014728932750, guid: b83635e10ddc1674db604e4be69e1301, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889014728932750, guid: b83635e10ddc1674db604e4be69e1301, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889014728932750, guid: b83635e10ddc1674db604e4be69e1301, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889014728932750, guid: b83635e10ddc1674db604e4be69e1301, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4889014728932750, guid: b83635e10ddc1674db604e4be69e1301, type: 2}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: b83635e10ddc1674db604e4be69e1301, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1538451591
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,7 +730,7 @@ GameObject:
   - component: {fileID: 1538451593}
   - component: {fileID: 1538451592}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: EnemyManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -891,7 +851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1466760113557568, guid: 9139a58c6eebc5b4492301363d7ca14f,
     type: 2}
-  spawnPoint: {fileID: 4230084612892782, guid: 84e436c700dee064388d5777abf4950f, type: 2}
+  spawnPoint: {fileID: 4169868424664262, guid: 4421f1433d6cb3748be298254369d9b5, type: 2}
   spawnDist: 99.76
   timeBetweenWaves: 5
 --- !u!4 &1712164614
@@ -956,6 +916,8 @@ MonoBehaviour:
   isCore: 1
   connectionOnMat: {fileID: 0}
   connectionOffMat: {fileID: 0}
+  healthCanvas: {fileID: 0}
+  greenHealth: {fileID: 0}
 --- !u!120 &1882892286
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1321,7 +1283,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2132101173
 GameObject:
