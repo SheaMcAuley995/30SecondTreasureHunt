@@ -137,3 +137,10 @@ MonoBehaviour:
   lookRadius: 10
   speed: 10
   target_Base: {fileID: 0}
+  attackDist: 0
+  damage: 1
+  health: 0
+  effectPrefab: {fileID: 0}
+  whatToHit:
+    serializedVersion: 2
+    m_Bits: 0

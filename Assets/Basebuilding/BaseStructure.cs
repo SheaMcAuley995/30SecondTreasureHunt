@@ -4,16 +4,26 @@ using UnityEngine;
 
 public class BaseStructure : MonoBehaviour, Idamagable {
 
+    [Header("Basics")]
     public float energyCost;
     public string structureName;
     public float personalSpace;
     public float maxHealth;
+    [Header("Connector")]
     public bool isConnector;
     public LineRenderer lr;
+    [Header("Generator")]
     public bool isEnergyGen;
     public float energyPerSecond;
+    [Header("Gun")]
+    public bool isGun;
+    public float fireRate;
+    public float range;
+    public float damage;
+    public float shotEnergyCost;
+    [Header("Core")]
     public bool isCore;
-
+    [Header("Other")]
     public Material connectionOnMat;
     public Material connectionOffMat;
 
@@ -27,9 +37,9 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     private bool activated = true;
 
     private bool checkedForCoreConnection = false;
-    private bool savedCoreConnectAnswer = false;
 
     private float health;
+    private float gunHeat = 0;
     private List<BaseStructure> connections = new List<BaseStructure>();
 
 
@@ -47,7 +57,8 @@ public class BaseStructure : MonoBehaviour, Idamagable {
             activated = false;
             foreach (BaseStructure strct in connections)
             {
-                if (isCore || strct.Activated && !strct.IsConnectedToCore(this, this))
+                checkedForCoreConnection = true;
+                if (isCore || (strct.Activated && !strct.IsConnectedToCore()))
                 {
                     strct.Deactivate();
                 }
@@ -102,7 +113,7 @@ public class BaseStructure : MonoBehaviour, Idamagable {
         }
     }
 
-    public bool IsConnectedToCore(BaseStructure caller, BaseStructure toBeDeleted)
+    public bool IsConnectedToCore()
     {
         if(!checkedForCoreConnection)
         {
@@ -110,70 +121,30 @@ public class BaseStructure : MonoBehaviour, Idamagable {
         }
         else
         {
-            return savedCoreConnectAnswer;
+            return false;
         }
 
         if(isCore)
         {
-            savedCoreConnectAnswer = true;
             return true;
         }
 
         foreach(BaseStructure strct in connections)
         {
-            if(strct != toBeDeleted && strct.isCore)
+            if(!strct.checkedForCoreConnection && strct.isCore)
             {
-                savedCoreConnectAnswer = true;
                 return true;
             }
         }
 
-        if (connections.Count == 1)
+        foreach (BaseStructure strct in connections)
         {
-            savedCoreConnectAnswer = false;
-            return false;
-        }
-
-        float lastClosest = float.MinValue;
-        BaseStructure toCheck = null;
-        float currentClosest = float.MaxValue;
-        int connsChecked = 0;
-        while(connsChecked < connections.Count)
-        {
-            currentClosest = float.MaxValue;
-            
-            foreach (BaseStructure strct in connections)
+            if (strct.IsConnectedToCore())
             {
-                if(strct == caller || strct == toBeDeleted)
-                {
-                    continue;
-                }
-                
-                float dist = Vector3.Distance(strct.transform.position,
-                                              BaseManager.Instance.GetCore().transform.position);
-                if(dist > lastClosest && dist < currentClosest)
-                {
-                    toCheck = strct;
-                    currentClosest = dist;
-                }
-            }
-            
-            if(toCheck == null)
-            {
-                savedCoreConnectAnswer = false;
-                return false;
-            }
-            else if(toCheck.IsConnectedToCore(this, toBeDeleted))
-            {
-                savedCoreConnectAnswer = true;
                 return true;
             }
-
-            lastClosest = currentClosest;
-            ++connsChecked;
         }
 
-        savedCoreConnectAnswer = true;
         return false;
     }
 
@@ -211,6 +182,14 @@ public class BaseStructure : MonoBehaviour, Idamagable {
             {
                 strct.Activate();
             }
+        }
+    }
+
+    public void GunUpdate(float dt)
+    {
+        if(gunHeat <= 0)
+        {
+
         }
     }
 

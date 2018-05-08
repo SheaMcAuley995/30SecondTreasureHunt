@@ -45,6 +45,7 @@ public class BaseManager : MonoBehaviour
     private List<BaseStructure> structures = new List<BaseStructure>();
     private List<BaseStructure> connectors = new List<BaseStructure>();
     private List<BaseStructure> generators = new List<BaseStructure>();
+    private List<BaseStructure> guns = new List<BaseStructure>();
 
     private float energy = 0;
 
@@ -77,6 +78,14 @@ public class BaseManager : MonoBehaviour
             }
         }
         UIManager.Instance.SetEnergyText((int)energy);
+
+        foreach(BaseStructure gun in guns)
+        {
+            if(gun.Activated)
+            {
+                gun.GunUpdate(Time.fixedDeltaTime);
+            }
+        }
     }
 
 
