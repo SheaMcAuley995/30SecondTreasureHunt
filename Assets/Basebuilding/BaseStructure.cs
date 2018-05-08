@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BaseStructure : MonoBehaviour, Idamagable {
 
@@ -28,6 +29,8 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     [Header("Other")]
     public Material connectionOnMat;
     public Material connectionOffMat;
+    public GameObject healthCanvas;
+    public RectTransform greenHealth;
 
     public bool Activated
     {
@@ -50,6 +53,7 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     private void Awake()
     {
         health = maxHealth;
+        healthCanvas.SetActive(false);
     }
 
     private void Start()
@@ -65,6 +69,7 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     public void TakeDamage(float dmg)
     {
         health -= dmg;
+
         if(health <= 0)
         {
             activated = false;
@@ -79,9 +84,15 @@ public class BaseStructure : MonoBehaviour, Idamagable {
             }
             BaseManager.Instance.DestroyStructure(this);
         }
-        else if(health > maxHealth)
+        else if(health >= maxHealth)
         {
             health = maxHealth;
+            healthCanvas.SetActive(false);
+        }
+        else
+        {
+            healthCanvas.SetActive(true);
+            greenHealth.sizeDelta = new Vector2(health / maxHealth, greenHealth.sizeDelta.y);
         }
     }
 
