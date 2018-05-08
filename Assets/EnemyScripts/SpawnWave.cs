@@ -37,7 +37,7 @@ public class SpawnWave : MonoBehaviour {
         for (int i = 0; i < waveIndex; i++)
         {
             Instantiate(spawnPoint);
-            spawnPoint.position = (Random.insideUnitCircle).normalized * spawnDist;
+            spawnPoint.position = (Random.insideUnitCircle).normalized * (BaseManager.Instance.BaseEdgeDist + spawnDist);
             spawnPoint.position = new Vector3(spawnPoint.position.x, 0, spawnPoint.position.y);
             Debug.DrawLine(transform.position, spawnPoint.position);
             SpawnEnemy();
@@ -60,6 +60,6 @@ public class SpawnWave : MonoBehaviour {
     {
         
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, spawnDist);
+        Gizmos.DrawWireSphere(transform.position, (BaseManager.Instance.BaseEdgeDist + spawnDist));
     }
 }
