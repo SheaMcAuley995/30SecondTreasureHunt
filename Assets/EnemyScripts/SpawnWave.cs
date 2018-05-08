@@ -12,7 +12,7 @@ public class SpawnWave : MonoBehaviour {
 
 
     public float timeBetweenWaves = 3f;
-    private float countDown = 3f;
+    private float countDown;
 
     //public Text waveCountdownText;
 
@@ -54,6 +54,15 @@ public class SpawnWave : MonoBehaviour {
         EnemyMoter script = enemy.GetComponent<EnemyMoter>();
 
         EnemyManager.Instance.enemies.Add(script);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, (BaseManager.Instance.BaseEdgeDist + spawnDist));
+
+
+
     }
 
 }
