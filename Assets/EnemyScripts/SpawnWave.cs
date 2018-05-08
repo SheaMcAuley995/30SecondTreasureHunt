@@ -14,7 +14,7 @@ public class SpawnWave : MonoBehaviour {
     public float timeBetweenWaves = 30f;
     private float countDown = 30f;
 
-    //public Text waveCountdownText;
+    public Text waveCountdownText;
 
     public int EnemiesPerWave = 5;
     private int waveIndex = 0;
@@ -28,6 +28,7 @@ public class SpawnWave : MonoBehaviour {
         }
         countDown -= Time.deltaTime;
 
+        waveCountdownText.text = "Next wave in :" + (int)countDown;
         //waveCountdownText.text = Mathf.Round(countDown).ToString();
     }
 
