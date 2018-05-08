@@ -139,8 +139,9 @@ MonoBehaviour:
   target_Base: {fileID: 0}
   attackDist: 0
   damage: 1
-  health: 0
+  health: 10
   effectPrefab: {fileID: 0}
   whatToHit:
     serializedVersion: 2
     m_Bits: 0
+  attackSpeed: 10

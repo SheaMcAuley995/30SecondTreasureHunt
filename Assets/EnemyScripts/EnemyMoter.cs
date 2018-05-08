@@ -25,7 +25,8 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
     public GameObject effectPrefab;
     public LayerMask whatToHit;
 
-
+    public float attackSpeed = 10f;
+    private float attackIntraval = 0f;
 
     void Awake()
     {
@@ -36,6 +37,10 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
     public void Update()
     {
        
+        if(health <= 0)
+        {
+            die();
+        }
 
         if(target_Current != null)
         {
@@ -48,7 +53,17 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
             }
             else
             {
-                attackStruct(damage);
+                if(attackIntraval <= 0)
+                {
+                    Debug.Log("ATTACK!");
+                    attackStruct(damage);
+                    attackIntraval = attackSpeed;
+                }
+                else
+                {
+                    attackIntraval -= Time.deltaTime;
+                }
+                
             }
         }
         else
@@ -88,6 +103,11 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
         }
     }
 
+    public void die()
+    {
+        Destroy(this.gameObject);
+    }
+
     public void attackStruct(float dmg)
     {
 
@@ -96,8 +116,6 @@ public class EnemyMoter : MonoBehaviour, Idamagable {
             {
                 attempt.TakeDamage(damage);
             }
-
-            
     }
 }
 
