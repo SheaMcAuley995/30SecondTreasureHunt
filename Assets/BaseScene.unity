@@ -294,7 +294,7 @@ MonoBehaviour:
   isConnector: 1
   lr: {fileID: 239919023}
   isEnergyGen: 1
-  energyPerSecond: 50
+  energyPerSecond: 5
   isGun: 0
   gunCooldown: 0
   range: 0
@@ -1016,7 +1016,7 @@ MonoBehaviour:
     type: 2}
   spawnPoint: {fileID: 4230084612892782, guid: 84e436c700dee064388d5777abf4950f, type: 2}
   spawnDist: 50
-  timeBetweenWaves: 5
+  timeBetweenWaves: 30
 --- !u!4 &1653949516
 Transform:
   m_ObjectHideFlags: 0
