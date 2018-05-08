@@ -103,7 +103,7 @@ MonoBehaviour:
   isEnergyGen: 0
   energyPerSecond: 0
   isGun: 1
-  fireRate: 0.25
+  gunCooldown: 0.25
   range: 5
   damage: 10
   shotEnergyCost: 10

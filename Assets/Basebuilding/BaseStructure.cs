@@ -50,7 +50,11 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     private void Awake()
     {
         health = maxHealth;
-        if(shotRenderer != null)
+    }
+
+    private void Start()
+    {
+        if (shotRenderer != null)
         {
             shotRenderer.enabled = false;
             shotRenderer.positionCount = 2;
@@ -215,6 +219,7 @@ public class BaseStructure : MonoBehaviour, Idamagable {
             
             if(target != null)
             {
+                target.TakeDamage(damage);
                 gunHeat = gunCooldown;
                 shotRenderer.SetPosition(1, target.transform.position);
                 shotRenderer.enabled = true;
