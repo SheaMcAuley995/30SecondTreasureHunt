@@ -399,7 +399,7 @@ Prefab:
     - target: {fileID: 114552685337730750, guid: 3b81a17c8637fd548870578ae16e7cf6,
         type: 2}
       propertyPath: energyPerSecond
-      value: 8
+      value: 43.61
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3b81a17c8637fd548870578ae16e7cf6, type: 2}

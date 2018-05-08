@@ -62,7 +62,8 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     private float gunHeat = 0;
     private float repairHeat = 0;
     private List<BaseStructure> connections = new List<BaseStructure>();
-    private EnemyMoter target = null;
+    private EnemyMoter gunTarget = null;
+    private BaseStructure repairTarget = null;
 
 
 
@@ -229,27 +230,27 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     {
         if(gunHeat <= 0 && activated)
         {
-            if(target == null
-            || Vector3.Distance(target.transform.position, transform.position) > gunRange)
+            if(gunTarget == null
+            || Vector3.Distance(gunTarget.transform.position, transform.position) > gunRange)
             {
                 EnemyMoter enemy = EnemyManager.Instance.getClosestEnemy(transform.position);
                 if (enemy != null
                 && Vector3.Distance(enemy.transform.position, transform.position) <= gunRange)
                 {
-                    target = enemy;
+                    gunTarget = enemy;
                 }
                 else
                 {
-                    target = null;
+                    gunTarget = null;
                 }
             }
             
-            if(target != null && BaseManager.Instance.Energy >= shotEnergyCost)
+            if(gunTarget != null && BaseManager.Instance.Energy >= shotEnergyCost)
             {
-                target.TakeDamage(damage);
+                gunTarget.TakeDamage(damage);
                 BaseManager.Instance.DrainEnergy(shotEnergyCost);
                 gunHeat = gunCooldown;
-                shotRenderer.SetPosition(1, target.transform.position);
+                shotRenderer.SetPosition(1, gunTarget.transform.position);
                 shotRenderer.enabled = true;
                 CancelInvoke();
                 Invoke("ShutoffShotRenderer", shotRenderTime);
@@ -270,16 +271,28 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     {
         if (repairHeat <= 0 && activated)
         {
-            BaseStructure target = BaseManager.Instance.GetClosestDamagedStructure(transform.position);
-
-            if (target != null
-            && BaseManager.Instance.Energy >= repairEnergyCost
-            && Vector3.Distance(target.transform.position, transform.position) <= repairRange)
+            if (repairTarget == null
+            || repairTarget.Health >= repairTarget.maxHealth
+            || Vector3.Distance(repairTarget.transform.position, transform.position) > repairRange)
             {
-                target.TakeDamage(-repairAmt);
+                BaseStructure friend = BaseManager.Instance.GetClosestDamagedStructure(transform.position);
+                if (friend != null
+                && Vector3.Distance(friend.transform.position, transform.position) <= repairRange)
+                {
+                    repairTarget = friend;
+                }
+                else
+                {
+                    repairTarget = null;
+                }
+            }
+            
+            if (repairTarget != null && BaseManager.Instance.Energy >= repairEnergyCost)
+            {
+                repairTarget.TakeDamage(-repairAmt);
                 BaseManager.Instance.DrainEnergy(repairEnergyCost);
                 repairHeat = repairCooldown;
-                repairRenderer.SetPosition(1, target.transform.position);
+                repairRenderer.SetPosition(1, repairTarget.transform.position);
                 repairRenderer.enabled = true;
                 CancelInvoke();
                 Invoke("ShutoffRepairRenderer", repairRenderTime);
