@@ -17,6 +17,8 @@ public class SpawnWave : MonoBehaviour {
     public Text waveCountdownText;
 
     public int EnemiesPerWave = 2;
+    [Range(0,360)]
+    public float fanSize = 45.0f;
     private int waveIndex = 0;
 
     public bool overTime;
@@ -43,7 +45,7 @@ public class SpawnWave : MonoBehaviour {
     {
         waveIndex += EnemiesPerWave;
         transform.eulerAngles = Vector3.up * Random.Range(0.0f, 9001.0f);
-        float fanSize = 30.0f;
+        
         float angleIncrement = fanSize / waveIndex;
 
         for (int i = 0; i < waveIndex; i++)
