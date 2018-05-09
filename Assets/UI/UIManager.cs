@@ -36,9 +36,9 @@ public class UIManager : MonoBehaviour {
         strctCostText.text = "COST: " + cost;
     }
 
-    public void SetEnergyText(int energy)
+    public void SetEnergyText(int energy, int energyCapacity)
     {
-        energyText.text = "ENERGY: " + energy;
+        energyText.text = "ENERGY: " + energy + " / " + energyCapacity;
     }
 
 }

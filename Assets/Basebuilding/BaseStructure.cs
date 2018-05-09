@@ -16,6 +16,9 @@ public class BaseStructure : MonoBehaviour, Idamagable {
     [Header("Generator")]
     public bool isEnergyGen;
     public float energyPerSecond;
+    [Header("Storage")]
+    public bool isStorage;
+    public float storageCapacity;
     [Header("Gun")]
     public bool isGun;
     public float gunCooldown;

@@ -56,6 +56,14 @@ public class BaseManager : MonoBehaviour
             return energy;
         }
     }
+    private float storageCapacity;
+    public float StorageCapacity
+    {
+        get
+        {
+            return storageCapacity;
+        }
+    }
 
     public delegate void OnStructureAdded(BaseStructure strct);
     public OnStructureAdded onStructureAdded = null;
@@ -69,11 +77,12 @@ public class BaseManager : MonoBehaviour
         connectors.Add(core);
         structures.Add(core);
         generators.Add(core);
+        AddStorage(core);
     }
 
     private void Start()
     {
-        UIManager.Instance.SetEnergyText((int)energy);
+        UIManager.Instance.SetEnergyText((int)energy, (int)storageCapacity);
     }
 
     private void FixedUpdate()
@@ -83,9 +92,13 @@ public class BaseManager : MonoBehaviour
             if(generator.Activated)
             {
                 energy += generator.energyPerSecond * Time.fixedDeltaTime;
+                if (energy > storageCapacity)
+                {
+                    energy = storageCapacity;
+                }
             }
         }
-        UIManager.Instance.SetEnergyText((int)energy);
+        UIManager.Instance.SetEnergyText((int)energy, (int)storageCapacity);
 
         foreach(BaseStructure gun in guns)
         {
@@ -218,6 +231,8 @@ public class BaseManager : MonoBehaviour
             repairers.Add(script);
         }
 
+        AddStorage(script);
+
         if (onStructureAdded != null)
         {
             onStructureAdded(script);
@@ -274,6 +289,7 @@ public class BaseManager : MonoBehaviour
         connectors.Remove(structure);
         generators.Remove(structure);
         guns.Remove(structure);
+        RemoveStorage(structure);
 
         Destroy(structure.gameObject);
     }
@@ -285,6 +301,10 @@ public class BaseManager : MonoBehaviour
         {
             energy = 0;
         }
+        if(energy > storageCapacity)
+        {
+            energy = storageCapacity;
+        }
     }
 
     public void ResetCoreChecks()
@@ -292,6 +312,26 @@ public class BaseManager : MonoBehaviour
         foreach(BaseStructure strct in structures)
         {
             strct.ResetCoreCheck();
+        }
+    }
+
+    public void AddStorage(BaseStructure strct)
+    {
+        if(strct.isStorage)
+        {
+            storageCapacity += strct.storageCapacity;
+        }
+    }
+
+    public void RemoveStorage(BaseStructure strct)
+    {
+        if (strct.isStorage)
+        {
+            storageCapacity -= strct.storageCapacity;
+            if(energy > storageCapacity)
+            {
+                energy = storageCapacity;
+            }
         }
     }
 
