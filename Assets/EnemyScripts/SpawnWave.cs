@@ -42,17 +42,38 @@ public class SpawnWave : MonoBehaviour {
     IEnumerator SpawnNewWave()
     {
         waveIndex += EnemiesPerWave;
-        Instantiate(spawnPoint);
-        spawnPoint.position = (Random.insideUnitCircle).normalized * (BaseManager.Instance.BaseEdgeDist + spawnDist);
-        spawnPoint.position = new Vector3(spawnPoint.position.x, 0, spawnPoint.position.y);
+        transform.eulerAngles = Vector3.up * Random.Range(0.0f, 9001.0f);
+        float fanSize = 30.0f;
+        float angleIncrement = fanSize / waveIndex;
+
         for (int i = 0; i < waveIndex; i++)
         {
             Debug.DrawLine(transform.position, spawnPoint.position);
-            transform.rotation = new Quaternion.  (transform.rotation.x, transform.rotation.y + 4,transform.rotation.z)
-            SpawnEnemy();
+            //transform.rotation = new  (transform.rotation.x, transform.rotation.y + 4,transform.rotation.z)
+            transform.eulerAngles += Vector3.up * angleIncrement;
+            GameObject enemy = Instantiate(enemyPrefab);
+            enemy.transform.position = transform.position + (transform.forward * (BaseManager.Instance.BaseEdgeDist + spawnDist));
+            EnemyMoter script = enemy.GetComponent<EnemyMoter>();
+            EnemyManager.Instance.enemies.Add(script);
+            //SpawnEnemy();
             //yield return new WaitForSeconds(0.1f);
-            yield return null;
         }
+        yield return null;
+
+        //waveIndex += EnemiesPerWave;
+        //Instantiate(spawnPoint);
+        //spawnPoint.position = (Random.insideUnitCircle).normalized * (BaseManager.Instance.BaseEdgeDist + spawnDist);
+        //spawnPoint.position = new Vector3(spawnPoint.position.x, 0, spawnPoint.position.y);
+        //spawnPoint.transform.parent = this.transform;
+        //for (int i = 0; i < waveIndex; i++)
+        //{
+        //    Debug.DrawLine(transform.position, spawnPoint.position);
+        //    //transform.rotation = new  (transform.rotation.x, transform.rotation.y + 4,transform.rotation.z)
+        //    transform.eulerAngles += Vector3.up * 4.0f;
+        //    SpawnEnemy();
+        //    //yield return new WaitForSeconds(0.1f);
+        //    yield return null;
+        //}
 
     }
 
@@ -62,9 +83,6 @@ public class SpawnWave : MonoBehaviour {
         //Vector3 Spawnpos = (Random.insideUnitCircle).normalized * 5;
         GameObject enemy = Instantiate(enemyPrefab, spawnPoint.transform.position,  spawnPoint.transform.rotation);
     //    enemy.transform.position = spawnPoint.position;
-        EnemyMoter script = enemy.GetComponent<EnemyMoter>();
-
-        EnemyManager.Instance.enemies.Add(script);
     }
     
 
