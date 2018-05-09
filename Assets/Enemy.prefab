@@ -124,8 +124,8 @@ MonoBehaviour:
   lookRadius: 10
   speed: 10
   target_Base: {fileID: 0}
-  attackDist: 5
-  damage: 25
+  attackDist: 10
+  damage: 50
   health: 100
   trailPrefab: {fileID: 1379739079942868, guid: 633aeb6a9126ad741b395f687c2e6f08,
     type: 2}
