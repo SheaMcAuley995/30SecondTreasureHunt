@@ -19,6 +19,11 @@ public class SpawnWave : MonoBehaviour {
     public int EnemiesPerWave = 2;
     private int waveIndex = 0;
 
+    private void Start()
+    {
+        countDown = timeBetweenWaves;
+    }
+
     private void Update()
     {
         if(countDown <= 0f)
@@ -34,30 +39,30 @@ public class SpawnWave : MonoBehaviour {
 
     IEnumerator SpawnNewWave()
     {
-        waveIndex += (EnemiesPerWave *= EnemiesPerWave);
-
+        waveIndex += EnemiesPerWave;
+        Instantiate(spawnPoint);
+        spawnPoint.position = (Random.insideUnitCircle).normalized * (BaseManager.Instance.BaseEdgeDist + spawnDist);
+        spawnPoint.position = new Vector3(spawnPoint.position.x, 0, spawnPoint.position.y);
         for (int i = 0; i < waveIndex; i++)
         {
-            Instantiate(spawnPoint);
-            spawnPoint.position = (Random.insideUnitCircle).normalized * (BaseManager.Instance.BaseEdgeDist + spawnDist);
-            spawnPoint.position = new Vector3(spawnPoint.position.x, 0, spawnPoint.position.y);
             Debug.DrawLine(transform.position, spawnPoint.position);
             SpawnEnemy();
-            yield return null;
+            yield return new WaitForSeconds(0.1f);
+            //yield return null;
         }
 
     }
 
     void SpawnEnemy()
     {
-       
-        GameObject enemy = Instantiate(enemyPrefab, spawnPoint.transform.position, spawnPoint.transform.rotation);
+        Vector3 Spawnpos = (Random.insideUnitCircle).normalized * 5;
+        GameObject enemy = Instantiate(enemyPrefab, spawnPoint.transform.position + Spawnpos,  spawnPoint.transform.rotation);
     //    enemy.transform.position = spawnPoint.position;
         EnemyMoter script = enemy.GetComponent<EnemyMoter>();
 
         EnemyManager.Instance.enemies.Add(script);
     }
-
+    
 
 
 }
