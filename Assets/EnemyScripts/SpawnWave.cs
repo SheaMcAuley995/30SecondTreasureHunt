@@ -19,6 +19,8 @@ public class SpawnWave : MonoBehaviour {
     public int EnemiesPerWave = 2;
     private int waveIndex = 0;
 
+    public bool overTime;
+
     private void Start()
     {
         countDown = timeBetweenWaves;
@@ -46,17 +48,19 @@ public class SpawnWave : MonoBehaviour {
         for (int i = 0; i < waveIndex; i++)
         {
             Debug.DrawLine(transform.position, spawnPoint.position);
+            transform.rotation = new Quaternion.  (transform.rotation.x, transform.rotation.y + 4,transform.rotation.z)
             SpawnEnemy();
-            yield return new WaitForSeconds(0.1f);
-            //yield return null;
+            //yield return new WaitForSeconds(0.1f);
+            yield return null;
         }
 
     }
 
     void SpawnEnemy()
     {
-        Vector3 Spawnpos = (Random.insideUnitCircle).normalized * 5;
-        GameObject enemy = Instantiate(enemyPrefab, spawnPoint.transform.position + Spawnpos,  spawnPoint.transform.rotation);
+        
+        //Vector3 Spawnpos = (Random.insideUnitCircle).normalized * 5;
+        GameObject enemy = Instantiate(enemyPrefab, spawnPoint.transform.position,  spawnPoint.transform.rotation);
     //    enemy.transform.position = spawnPoint.position;
         EnemyMoter script = enemy.GetComponent<EnemyMoter>();
 
